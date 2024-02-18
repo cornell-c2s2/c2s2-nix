@@ -6,7 +6,7 @@ version = '4.036'
 homepage = 'https://www.veripool.org/verilator/'
 description = "Fast and robust (System)Verilog simulator/compiler and linter"
 
-toolchain = {'name': 'GCC', 'version': '11.2.0'}
+toolchain = {'name': 'GCC', 'version': '13.2.0'}
 
 source_urls = ['https://www.veripool.org/ftp/']
 sources = ['%(name)s-%(version)s.tgz']
