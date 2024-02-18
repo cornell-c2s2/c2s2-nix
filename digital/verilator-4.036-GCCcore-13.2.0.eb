@@ -13,10 +13,6 @@ source_urls = ['https://www.veripool.org/ftp/']
 sources = ['%(name)s-%(version)s.tgz']
 checksums = ['307cf2657328b6e529af48c2d7d06b78b98d00d4f0148a484173cf81df15c0eb']
 
-sanity_check_commands = [
-    "%(name)s --version",
-]
-
 builddependencies = [
     ('Autoconf', '2.71'),
     ('flex', '2.6.4'),
@@ -32,7 +28,13 @@ dependencies = [
     ('Perl', '5.38.0'),
 ]
 
+sanity_check_commands = [
+    "%(name)s --version",
+]
+
 sanity_check_paths = {
     'files': ['bin/verilator'],
     'dirs': [],
 }
+
+moduleclass = 'tools'
