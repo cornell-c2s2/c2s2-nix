@@ -1,0 +1,3 @@
+robot: True
+easyconfigs:
+ - ./src/digital/verilator-4.036-GCCcore-13.2.0.eb

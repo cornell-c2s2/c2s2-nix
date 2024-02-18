@@ -38,3 +38,6 @@ sanity_check_paths = {
 }
 
 moduleclass = 'tools'
+modextravars = {
+    'c2s2-class' : 'digital'
+}

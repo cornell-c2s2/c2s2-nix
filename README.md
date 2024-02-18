@@ -51,16 +51,20 @@ module-syntax=Tcl # Support Tcl modules - not needed if you use Lmod
 modules-tool=EnvironmentModulesC # Specify the module tool used on C2S2's server
 prefix=/classes/c2s2/easybuild # Have a global path for installations and building
 # ...
+[override]
+#...
+experimental=True # Allow for Easystack files
+#...
 ```
 
 You can verify that these changes took effect by running `eb --show-config` to show all of your current configurations
 
 ## Installing
 
-Before installing anything else, if you are on C2S2's server, the version of OpenSSL is so low that EasyBuild cannot install a wrapper. To remedy this, use the custom `easyconfig` for OpenSSL:
+Before installing anything else, if you are on C2S2's server, the version of OpenSSL is so low that EasyBuild cannot install a wrapper. To remedy this, use the custom `easystack` for server-specific dependencies:
 
 ```bash
-eb c2s2-dev/OpenSSL-1.1.eb --robot
+eb --easystack 
 ```
 
 From there, install the software you want based on the `easyconfig` files in the corresponding directory. For instance, if I wanted to build the software in `general`, I would run:
