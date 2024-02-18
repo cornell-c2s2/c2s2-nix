@@ -1,4 +1,5 @@
 easyblock = 'ConfigureMake'
+preconfigopts = "autoconf && "
 
 name = 'verilator'
 version = '4.036'
@@ -6,11 +7,11 @@ version = '4.036'
 homepage = 'https://www.veripool.org/verilator/'
 description = "Fast and robust (System)Verilog simulator/compiler and linter"
 
-toolchain = {'name': 'GCC', 'version': '13.2.0'}
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
 
 source_urls = ['https://www.veripool.org/ftp/']
 sources = ['%(name)s-%(version)s.tgz']
-checksums = ['1sy02pgq3kvk8548l57hsh08vfbqdg8dghj8mwlybdi8fdjz4z1h']
+checksums = ['307cf2657328b6e529af48c2d7d06b78b98d00d4f0148a484173cf81df15c0eb']
 
 sanity_check_commands = [
     "%(name)s --version",
@@ -19,15 +20,19 @@ sanity_check_commands = [
 builddependencies = [
     ('Autoconf', '2.71'),
     ('flex', '2.6.4'),
-    ('Bison', '3.8.2'),
+    ('Bison', '3.6.1'), # Need older Bison version - broken with 3.7+
 ]
 
 dependencies = [
-    ('GCC', '13.2.0'),
     ('make', '4.4.1'),
-    ('git', '2.4.1'),
-    ('ccache', '4.8.3'),
+    ('ccache', '4.9'),
+    ('git', '2.42.0'),
     ('help2man', '1.49.3'),
     ('Python', '3.11.5'),
-    ('perl', '5.38.0'),
+    ('Perl', '5.38.0'),
 ]
+
+sanity_check_paths = {
+    'files': ['bin/verilator'],
+    'dirs': [],
+}

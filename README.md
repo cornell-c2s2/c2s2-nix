@@ -4,7 +4,7 @@ C2S2's custom toolchain for chip development, built and managed using [EasyBuild
 
 ## Installation
 
-The only requirement is that EasyBuild is installed. There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the additional configurations needed to use `EnvironmentModulesC` as the modules tool:
+The only requirement is that EasyBuild is installed (4.9.0+). There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the additional configurations needed to use `EnvironmentModulesC` as the modules tool:
 
 ```bash
 # Define installation prefix, and install EasyBuild into it
@@ -54,3 +54,20 @@ prefix=/classes/c2s2/easybuild # Have a global path for installations and buildi
 ```
 
 You can verify that these changes took effect by running `eb --show-config` to show all of your current configurations
+
+## Installing
+
+Before installing anything else, if you are on C2S2's server, the version of OpenSSL is so low that EasyBuild cannot install a wrapper. To remedy this, use the custom `easyconfig` for OpenSSL:
+
+```bash
+eb c2s2-dev/OpenSSL-1.1.eb --robot
+```
+
+From there, install the software you want based on the `easyconfig` files in the corresponding directory. For instance, if I wanted to build the software in `general`, I would run:
+
+```bash
+eb general/*.eb --robot --robot-paths :./dependencies/
+```
+
+ - `--robot` indicates that EasyBuild should automatically install dependencies as well (EasyBuild doesn't install dependencies by default)
+ - `--robot-paths :./dependencies/` indicates that we should append `./dependencies/` to the paths that EasyBuild uses to find dependencies. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet
