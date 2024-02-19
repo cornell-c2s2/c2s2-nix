@@ -1,0 +1,28 @@
+easyblock = 'ConfigureMake'
+preconfigopts = "autoconf && "
+
+name = 'iverilog'
+version = '12.0'
+
+homepage = 'https://steveicarus.github.io/iverilog/'
+description = "A general-purpose open-source Verilog (HDL) compiler"
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+
+source_urls = ['https://github.com/steveicarus/iverilog/archive/refs/tags/']
+sources = ['v12_0.tar.gz']
+checksums = ['a68cb1ef7c017ef090ebedb2bc3e39ef90ecc70a3400afb4aa94303bc3beaa7d']
+
+builddependencies = [
+    ('Autoconf', '2.71'),
+    ('gperf', '3.1'),
+    ('make', '4.4.1'),
+    ('flex', '2.6.4'),
+    ('Bison', '3.8.2'),
+]
+
+sanity_check_commands = [
+    "%(name)s -v | grep 'Icarus Verilog version 12.0'",
+]
+
+moduleclass = 'compiler'

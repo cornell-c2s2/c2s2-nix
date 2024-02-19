@@ -1,6 +1,6 @@
 easyconfigs:
-  - git-2.42.0-GCCcore-13.2.0.eb:
-  - gperf-3.1-GCCcore-13.2.0.eb:
-  - tmux-3.3a.eb:
+  - git-2.42.0-GCCcore-13.2.0.eb
+  - gperf-3.1-GCCcore-13.2.0.eb
+  - tmux-3.3a.eb
   - ./src/general/Python-3.11.5-GCCcore-13.2.0.eb
   - ./src/general/xclip-0.13-GCCcore-13.2.0.eb
