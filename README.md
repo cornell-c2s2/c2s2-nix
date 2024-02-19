@@ -60,7 +60,7 @@ experimental=True # Allow for Easystack files
 
 You can verify that these changes took effect by running `eb --show-config` to show all of your current configurations
 
-## Installing
+## Installing Packages
 
 Before installing anything else, if you are on C2S2's server, the version of OpenSSL is so low that EasyBuild cannot install a wrapper. To remedy this, use the custom `easystack` for server-specific dependencies:
 
