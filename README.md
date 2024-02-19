@@ -48,7 +48,6 @@ To create our configuration file, we started with the output of `eb --confighelp
 [config]
 # ...
 module-syntax=Tcl # Support Tcl modules - not needed if you use Lmod
-moduleclasses=digital,analog,software,sysarch,general,dev # Include custom classes
 modules-tool=EnvironmentModulesC # Specify the module tool used on C2S2's server
 prefix=/classes/c2s2/easybuild # Have a global path for installations and building
 # ...

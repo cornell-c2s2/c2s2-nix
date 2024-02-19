@@ -26,6 +26,7 @@ dependencies = [
     ('help2man', '1.49.3'),
     ('Python', '3.11.5'),
     ('Perl', '5.38.0'),
+    ('GCCcore', '13.2.0', '', SYSTEM),
 ]
 
 sanity_check_commands = [
@@ -37,4 +38,4 @@ sanity_check_paths = {
     'dirs': [],
 }
 
-moduleclass = 'digital'
+moduleclass = 'compiler'
