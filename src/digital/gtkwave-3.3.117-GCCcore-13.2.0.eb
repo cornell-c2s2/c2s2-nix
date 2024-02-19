@@ -1,0 +1,38 @@
+easyblock = 'ConfigureMake'
+
+name = 'gtkwave'
+version = '3.3.117'
+
+homepage = 'https://www.veripool.org/verilator/'
+description = "A fully featured GTK+ based wave viewer"
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+
+source_urls = ['http://gtkwave.sourceforge.net/']
+sources = ['%(name)s-%(version)s.tar.gz']
+checksums = ['55520fc308244c5dc99d5a3f42f5e782eb8e6a9e81cece5c84ea3f11875bff13']
+
+builddependencies = [
+    ('Meson', '1.2.3'),
+    ('gperf', '3.1'),
+    ('flex', '2.6.4'),
+    ('GTK3', '3.24.39'),
+    ('Tcl', '8.6.13'),
+    ('Tk', '8.6.13'),
+    ('GCCcore', '13.2.0', '', SYSTEM),
+]
+
+dependencies = [
+    ('bzip2', '1.0.8'),
+]
+
+sanity_check_commands = [
+    "%(name)s --version",
+]
+
+sanity_check_paths = {
+    'files': ['bin/gtkwave'],
+    'dirs': [],
+}
+
+moduleclass = 'compiler'

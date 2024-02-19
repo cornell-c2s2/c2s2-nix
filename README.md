@@ -64,14 +64,14 @@ You can verify that these changes took effect by running `eb --show-config` to s
 Before installing anything else, if you are on C2S2's server, the version of OpenSSL is so low that EasyBuild cannot install a wrapper. To remedy this, use the custom `easystack` for server-specific dependencies:
 
 ```bash
-eb --easystack c2s2-dev.yaml --robot --robot-paths :./src/*
+eb --easystack c2s2-dev.yaml --robot
 ```
 
 From there, install the software you want based on the corresponding `easystack` file. For instance, if I wanted to build the software in `general`, I would run:
 
 ```bash
-eb --easystack general.yaml --robot --robot-paths :./src/*
+eb --easystack general.yaml --robot --robot-paths :./src/dependencies
 ```
 
  - `--robot` indicates that EasyBuild should automatically install dependencies as well (EasyBuild doesn't install dependencies by default)
- - `--robot-paths :./src/*` indicates that we should append `./src/*` to the paths that EasyBuild uses to find dependency `easyconfig` files. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet
+ - `--robot-paths :./src/dependencies` indicates that we should append `./src/dependencies` to the paths that EasyBuild uses to find dependency `easyconfig` files. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet
