@@ -1,3 +1,2 @@
-robot: True
 easyconfigs:
  - ./src/c2s2-dev/OpenSSL-1.1.eb

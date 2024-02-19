@@ -37,7 +37,4 @@ sanity_check_paths = {
     'dirs': [],
 }
 
-moduleclass = 'tools'
-modextravars = {
-    'c2s2-class' : 'digital'
-}
+moduleclass = 'digital'
