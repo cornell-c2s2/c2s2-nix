@@ -1,0 +1,41 @@
+easyblock = 'PythonBundle'
+
+name = 'C2S2PythonPackages'
+version = '2023.10'
+
+homepage = 'https://python.org/'
+description = "C2S2's bundle of Python packages from PyPI"
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+toolchainopts = {'pic': True}
+
+dependencies = [
+    ('Python', '3.11.5'),
+    ('pkgconf', '2.0.3'), # Solely for PyMTL to find Verilator
+]
+
+exts_default_options = {
+    'download_dep_fail': True,
+    'sanity_pip_check': True,
+    'use_pip': True,
+}
+
+exts_list = [
+    ('cocotb', '1.8.1', {
+        'checksums': ['1499dbe0d4d10676bc9b234861e1df171a7f02aca6b696b5fadf01fe61e3a4f6'],
+    }),
+    ('fxpmath', '0.4.9', {
+        'checksums': ['456a0ae8960c9de2bd7a9518bbc9d62a22ad1f3c51b8c31e4000aeaf4f898b75'],
+    }),
+    ('ipython', '8.21.0', {
+        'checksums': ['48fbc236fbe0e138b88773fa0437751f14c3645fb483f1d4c5dee58b37e5ce73'],
+    }),
+    ('pymtl3', '3.1.16', {
+        'checksums': ['f0e1329c45fb8d42527714537ea734345dd69485b72fc3d22ef1d215a40b60f3'],
+    }),
+    ('PyYAML', '6.0.1', {
+        'checksums': ['bfdf460b1736c775f2ba9f6a92bca30bc2095067b8a9d77876d1fad6cc3b4a43'],
+    }),
+]
+
+moduleclass = 'lang'
