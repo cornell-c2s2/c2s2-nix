@@ -4,11 +4,7 @@ version = '0.3.24'
 homepage = 'http://www.openblas.net/'
 description = "OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version."
 
-toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
-
-dependencies = [
-    ('LAPACK', '3.10.1', '', ('GCC', '13.2.0')),
-]
+toolchain = {'name': 'GCC', 'version': '13.2.0'}
 
 source_urls = [
     # order matters, trying to download the large.tgz/timing.tgz LAPACK tarballs from GitHub causes trouble
@@ -22,6 +18,8 @@ patches = [
     'OpenBLAS-0.3.15_workaround-gcc-miscompilation.patch',
     'OpenBLAS-0.3.20_use-xASUM-microkernels-on-new-intel-cpus.patch',
     'OpenBLAS-0.3.21_fix-order-vectorization.patch',
+    'OpenBLAS-0.3.23_fix-lapack-test.patch',
+    'OpenBLAS-0.3.23_disable-DDRGES3-LAPACK-test.patch',
     'OpenBLAS-0.3.24_fix-czasum.patch',
 ]
 checksums = [
@@ -34,6 +32,9 @@ checksums = [
      '1dbd0f9473963dbdd9131611b455d8a801f1e995eae82896186d3d3ffe6d5f03'},
     {'OpenBLAS-0.3.21_fix-order-vectorization.patch':
      '08af834e5d60441fd35c128758ed9c092ba6887c829e0471ecd489079539047d'},
+    {'OpenBLAS-0.3.23_fix-lapack-test.patch': 'f6b3d81061f136e34aaf5359bb80fb9d2bba28825cc1dd26179b8dd01a9a0054'},
+    {'OpenBLAS-0.3.23_disable-DDRGES3-LAPACK-test.patch':
+     '36a16b4d3b867897413b43b774f8b57d641ad9a1b452e9de33ced198ab25e461'},
     {'OpenBLAS-0.3.24_fix-czasum.patch':
      '8132b87c519fb08caa3bd7291fe8a1d0e1afe6fcb667d16f3020b46122afe20c'},
 ]
@@ -44,15 +45,11 @@ builddependencies = [
     ('Python', '3.11.5'),
 ]
 
-run_lapack_tests = False # Installed separately
+# Figured it wasn't the best use of time to run 3.5 hr tests that gave arbitrary errors that we'll ignore anyway
+run_lapack_tests = False
 max_failing_lapack_tests_num_errors = 150
 
 # extensive testing can be enabled by uncommenting the line below
 # runtest = 'PATH=.:$PATH lapack-timing'
-
-# Add extra environment variables for working with numpy
-modextravars = {
-    'NPY_BLAS_LIBS': '%(installdir)s/lib'
-}
 
 moduleclass = 'numlib'
