@@ -12,7 +12,9 @@ toolchainopts = {'pic': True}
 
 builddependencies = [
     ('binutils', '2.40', '', ('GCCcore', '13.2.0')),
-    ('CMake', '3.27.6', '', ('GCCcore', '13.2.0')),
+    ('CMake', '3.27.6', '', ('GCCcore', '13.2.0')), # For a few things, like pybind
+    ('Eigen', '3.4.0', '', ('GCCcore', '13.2.0')), # For pybind testing
+    ('Catch2', '2.13.9', '', ('GCCcore', '13.2.0')), # For pybind testing
 
     # For some reason Numpy didn't like the Python installation of Ninja, but including
     # another should be fine since they're both the same version
@@ -22,6 +24,9 @@ builddependencies = [
 dependencies = [
     ('Python', '3.11.5'),
     ('pkgconf', '2.0.3'), # Solely for PyMTL to find Verilator
+    ('Pillow', '10.2.0', '', ('GCCcore', '13.2.0')), # For matplotlib
+    ('freetype', '2.13.2'), # For matplotlib
+    ('Qhull', '2020.2', '', ('GCCcore', '13.2.0')), # For matplotlib
 ]
 
 exts_default_options = {
@@ -118,6 +123,7 @@ exts_list = [
             'dirs': ['lib/python%(pyshortver)s/site-packages'],
         },
         'sanity_check_commands': ["meson --help"],
+        'modulename': 'mesonbuild'
     }),
     ('meson-python', '0.15.0', {
         'modulename': 'mesonpy',
@@ -155,6 +161,66 @@ exts_list = [
     }),
 
     #---------------------------------------------------------------------
+    # matplotlib
+    #---------------------------------------------------------------------
+    # Need for matplotlib-inline for ipython
+
+    ('pybind11', '2.11.1', {
+        'source_urls': ['https://github.com/pybind/pybind11/archive/'],
+        'sources': ['v%(version)s.tar.gz'],
+        'patches': [
+            'pybind11-2.10.3_fix-nvcc-compat.patch',
+            'pybind11-2.10.3_require-catch.patch',
+        ],
+        'checksums': [
+            {'v2.11.1.tar.gz': 'd475978da0cdc2d43b73f30910786759d593a9d8ee05b1b6846d1eb16c6d2e0c'},
+            {'pybind11-2.10.3_fix-nvcc-compat.patch': '510a23dac47b8b440c06c101d269451c95e09907d9034b6b8a16aeb8b89364ae'},
+            {'pybind11-2.10.3_require-catch.patch': '4a27ba3ef1d5c535d120d6178a6e876ae678e4899a07500aab37908357b0b60b'},
+        ],
+    }),
+    ('contourpy', '1.2.0', {
+        'checksums': ['171f311cb758de7da13fc53af221ae47a5877be5a0843a9fe150818c51ed276a'],
+    }),
+    ('cycler', '0.12.1', {
+        'checksums': ['88bb128f02ba341da8ef447245a9e138fae777f6a23943da4540077d3601eb1c'],
+    }),
+    ('fonttools', '4.49.0', {
+        'modulename': 'fontTools',
+        'checksums': ['ebf46e7f01b7af7861310417d7c49591a85d99146fc23a5ba82fdb28af156321'],
+    }),
+    ('cppy', '1.2.1', {
+        'checksums': ['83b43bf17b1085ac15c5debdb42154f138b928234b21447358981f69d0d6fe1b'],
+    }),
+    ('kiwisolver', '1.4.5', {
+        'checksums': ['e57e563a57fb22a142da34f38acc2fc1a5c864bc29ca1517a88abc963e60d6ec'],
+    }),
+    ('pyparsing', '3.1.1', {
+        'checksums': ['ede28a1a32462f5a9705e07aea48001a08f7cf81a021585011deba701581a0db'],
+    }),
+    ('six', '1.16.0', {
+        'checksums': ['1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926'],
+    }),
+    ('python-dateutil', '2.8.2', {
+        'modulename': 'dateutil',
+        'checksums': ['0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86'],
+    }),
+    ('importlib_resources', '6.1.1', {
+        'checksums': ['3893a00122eafde6894c59914446a512f728a0c1a45f9bb9b63721b6bacf0b4a'],
+    }),
+    ('matplotlib', '3.8.3', {
+        # Avoid building own versions of freetype and qhull
+        'preinstallopts': "sed -e 's/#system_freetype = False/system_freetype = True/g' "
+                          "-e 's/#system_qhull = False/system_qhull = True/g' mplsetup.cfg.template >mplsetup.cfg"
+                          "&& export CPLUS_INCLUDE_PATH=$EBROOTFREETYPE/include/freetype2:${CPLUS_INCLUDE_PATH} && ",
+        'checksums': ['7b416239e9ae38be54b028abbf9048aff5054a9aba5416bef0bd17f9162ce161'],
+        'sanity_check_commands': [
+            """python -c 'import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot' """,
+            "python -c 'from mpl_toolkits.mplot3d import Axes3D'",
+        ],
+        'modextravars': {'MPLBACKEND': 'Agg'}, # use non-interactive plotting backend as default
+    }),
+    
+    #---------------------------------------------------------------------
     # ipython
     #---------------------------------------------------------------------
 
@@ -171,6 +237,7 @@ exts_list = [
         'checksums': ['8585105b371a04b8316a43d5ce29c098575c2e477850b62b848b964f1444527e'],
     }),
     ('matplotlib-inline', '0.1.6', {
+        'modulename': 'matplotlib_inline',
         'checksums': ['f887e5f10ba98e8d2b150ddcf4702c1e5f8b3a20005eb0f74bfdbd360ee6f304'],
     }),
     ('ptyprocess', '0.7.0', {
@@ -184,9 +251,6 @@ exts_list = [
     }),
     ('prompt_toolkit', '3.0.43', {
         'checksums': ['3527b7af26106cbc65a040bcc84839a3566ec1b051bb0bfe953631e704b0ff7d'],
-    }),
-    ('six', '1.16.0', {
-        'checksums': ['1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926'],
     }),
     ('pygments', '2.17.2', {
         'checksums': ['da46cec9fd2de5be3a8a784f434e4c4ab670b4ff54d605c4c2717e9d49c4c367'],
@@ -204,6 +268,7 @@ exts_list = [
         'checksums': ['836a778de4fec4dcd1dcd89ed8abff8a221f58308462e1c4aa2a3cf30148f0b9'],
     }),
     ('ipython', '8.21.0', {
+        'modulename': 'IPython',
         'checksums': ['48fbc236fbe0e138b88773fa0437751f14c3645fb483f1d4c5dee58b37e5ce73'],
     }),
 
