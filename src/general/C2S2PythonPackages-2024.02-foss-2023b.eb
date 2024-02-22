@@ -16,17 +16,20 @@ builddependencies = [
     ('Eigen', '3.4.0', '', ('GCCcore', '13.2.0')), # For pybind testing
     ('Catch2', '2.13.9', '', ('GCCcore', '13.2.0')), # For pybind testing
 
-    # For some reason Numpy didn't like the Python installation of Ninja, but including
-    # another should be fine since they're both the same version
-    ('Ninja', '1.11.1', '', ('GCCcore', '13.2.0')),
+    # Some packages require installations to be previously installed; these are duplicated below,
+    # but included here so they can be found when building
+    ('Ninja', '1.11.1', '', ('GCCcore', '13.2.0')), # Numpy
+    ('Cython', '3.0.8', '', ('GCCcore', '13.2.0')),
+    ('Meson', '1.2.3'), #Scipy
 ]
 
 dependencies = [
-    ('Python', '3.11.5'),
-    ('pkgconf', '2.0.3'), # Solely for PyMTL to find Verilator
+    ('Python', '3.11.5', '', ('GCCcore', '13.2.0')),
+    ('pkgconf', '2.0.3', '', ('GCCcore', '13.2.0')), # Solely for PyMTL to find Verilator
     ('Pillow', '10.2.0', '', ('GCCcore', '13.2.0')), # For matplotlib
-    ('freetype', '2.13.2'), # For matplotlib
+    ('freetype', '2.13.2', '', ('GCCcore', '13.2.0')), # For matplotlib
     ('Qhull', '2020.2', '', ('GCCcore', '13.2.0')), # For matplotlib
+    ('libyaml', '0.2.5', '', ('GCCcore', '13.2.0')), # For PyYAML
 ]
 
 exts_default_options = {
@@ -43,8 +46,17 @@ exts_default_options = {
 # packages. Because of this, **order matters below**; you must install
 # dependencies first.
 #
-# Dev Note: It's helpful to use the `pipdeptree` package to see what you
-# have to install.
+# Dev Note: Using the `pipdeptree` package to try to figure out dependency
+# trees will give you false hope that you know what's going on; it only
+# reports runtime dependencies, whereas we are additionally concerned with
+# build (and testing) dependencies. Manually inspecting pyproject.toml's
+# and/or trial and error is the best way to go.
+#
+# Checksums can be found at https://pypi.org/ for each package by going to
+# 'Download files', then clicking 'view hashes' (you want SHA256)
+#
+# If/when adding new packages, use `--skip` (along with `--rebuild`) to
+# skil rebuilding previously-built packages
 
 exts_list = [
 
@@ -272,11 +284,140 @@ exts_list = [
         'checksums': ['48fbc236fbe0e138b88773fa0437751f14c3645fb483f1d4c5dee58b37e5ce73'],
     }),
 
+    #---------------------------------------------------------------------
+    # pymtl3
+    #---------------------------------------------------------------------
+    # pytest installed above
 
+    ('pycparser', '2.21', {
+        'checksums': ['e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206'],
+    }),
+    ('cffi', '1.16.0', {
+        'checksums': ['bcb3ef43e58665bbda2fb198698fcae6776483e0c4a631aa5647806c25e02cc0'],
+    }),
+    ('greenlet', '3.0.3', {
+        'checksums': ['43374442353259554ce33599da8b692d5aa96f8976d567d4badf263371fbe491'],
+    }),
+    ('attrs', '23.2.0', {
+        'checksums': ['935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30'],
+    }),
+    ('sortedcontainers', '2.4.0', {
+        'checksums': ['25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88'],
+    }),
+    ('hypothesis', '6.98.9', {
+        'checksums': ['25a6ef40512893618118ba6b6d18d13611ba756e07fa1f0bdd78c64baa6ec874'],
+    }),
+    ('py', '1.11.0', {
+        'checksums': ['51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719'],
+    }),
+    ('pymtl3', '3.1.16', {
+        'checksums': ['f0e1329c45fb8d42527714537ea734345dd69485b72fc3d22ef1d215a40b60f3'],
+    }),
 
+    #---------------------------------------------------------------------
+    # PyYAML
+    #---------------------------------------------------------------------
 
+    ('PyYAML', '6.0.1', {
+        'modulename': 'yaml',
+        'checksums': ['bfdf460b1736c775f2ba9f6a92bca30bc2095067b8a9d77876d1fad6cc3b4a43'],
+        'preinstallopts': 'sed -i "s/Cython.Distutils import /Cython.Distutils.old_build_ext import old_/" setup.py &&',
+        'sanity_check_commands': ["python -c 'import yaml; yaml.CLoader'"],
+    }),
 
-    
+    #---------------------------------------------------------------------
+    # scipy
+    #---------------------------------------------------------------------
+
+    ('ply', '3.11', {
+        'checksums': ['00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3'],
+    }),
+    ('gast', '0.5.4', {
+        'checksums': ['9c270fe5f4b130969b54174de7db4e764b09b4f7f67ccfc32480e29f78348d97'],
+    }),
+    ('beniget', '0.4.1', {
+        'checksums': ['75554b3b8ad0553ce2f607627dad3d95c60c441189875b98e097528f8e23ac0c'],
+    }),
+    ('pythran', '0.15.0', {
+        'checksums': ['f9bc61bcb96df2cd4b578abc5a62dfb3fbb0b0ef02c264513dfb615c5f87871c'],
+    }),
+    # Testing dependencies
+    ('click', '8.1.7', {
+        'checksums': ['ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de'],
+    }),
+    ('zipp', '3.17.0', {
+        'checksums': ['84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0'],
+    }),
+    ('importlib_metadata', '7.0.1', {
+        'checksums': ['f238736bb06590ae52ac1fab06a3a9ef1d8dce2b7a35b5ab329371d6c8f5d2cc'],
+    }),
+    ('doit', '0.36.0', {
+        'checksums': ['71d07ccc9514cb22fe59d98999577665eaab57e16f644d04336ae0b4bae234bc'],
+    }),
+    ('cloudpickle', '3.0.0', {
+        'checksums': ['996d9a482c6fb4f33c1a35335cf8afd065d2a56e973270364840712d9131a882'],
+    }),
+    ('pydevtool', '0.3.0', {
+        'checksums': ['25e3ba4f3d33ccac33ee2b9775995848d49e9b318b7a146477fb5d52f786fc8a'],
+    }),
+    ('poetry_core', '1.9.0', {
+        'modulename': 'poetry.core',
+        'checksums': ['fa7a4001eae8aa572ee84f35feb510b321bd652e5cf9293249d62853e1f935a2'],
+    }),
+    ('rich', '13.7.0', {
+        'checksums': ['5cb5123b5cf9ee70584244246816e9114227e0b98ad9176eede6ad54bf5403fa'],
+    }),
+    ('rich-click', '1.7.3', {
+        'modulename': 'rich_click',
+        'checksums': ['bced1594c497dc007ab49508ff198bb437c576d01291c13a61658999066481f4'],
+    }),
+    ('markdown-it-py', '3.0.0', {
+        'modulename': 'markdown_it',
+        'checksums': ['e3f60a94fa066dc52ec76661e37c851cb232d92f9886b15cb560aaada2df8feb'],
+    }),
+    ('mdurl', '0.1.2', {
+        'checksums': ['bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba'],
+    }),
+    ('pooch', '1.8.1', {
+        'checksums': ['27ef63097dd9a6e4f9d2694f5cfbf2f0a5defa44fccafec08d601e731d746270'],
+    }),
+    ('platformdirs', '4.2.0', {
+        'checksums': ['ef0cc731df711022c174543cb70a9b5bd22e5a9337c8624ef2c2ceb8ddad8768'],
+    }),
+    ('certifi', '2024.2.2', {
+        'checksums': ['0569859f95fc761b18b45ef421b1290a0f65f147e92a1e5eb3e635f9a5e4e66f'],
+    }),
+    ('charset-normalizer', '3.3.2', {
+        'modulename': 'charset_normalizer',
+        'checksums': ['f30c3cb33b24454a82faecaf01b19c18562b1e89558fb6c56de4d9118a032fd5'],
+    }),
+    ('idna', '3.6', {
+        'checksums': ['9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca'],
+    }),
+    ('urllib3', '2.2.1', {
+        'checksums': ['d0570876c61ab9e520d776c38acbbb5b05a776d3f9ff98a5c8fd5162a444cf19'],
+    }),
+    ('requests', '2.31.0', {
+        'checksums': ['942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1'],
+    }),
+    ('scipy', '1.12.0', {
+        'patches': [
+            'scipy-1.11.1_disable-tests.patch',
+            'scipy-1.11.1_xfail-aarch64_test_maxiter_worsening.patch',
+        ],
+        'checksums': [
+            {'scipy-1.12.0.tar.gz': '4bf5abab8a36d20193c698b0f1fc282c1d083c94723902c447e5d2f1780936a3'},
+            {'scipy-1.11.1_disable-tests.patch': '906bfb03397d94882ccdc1b93bc2c8e854e0e060c2d107c83042992394e6a4af'},
+            {'scipy-1.11.1_xfail-aarch64_test_maxiter_worsening.patch':
+             '918c8e6fa8215d459126f267764c961bde729ea4a116c7f6287cddfdc58ffcea'},
+        ],
+
+        # 20 failures due to lack of deprecation warning - the rest (45000+) pass, so not too worried
+        # - this is expected behavior: https://github.com/pytest-dev/pytest/issues/9288
+        # (also a lot quicker to test)
+        'ignore_test_result': True,
+    }),   
+    # 79 extensions :) 
 ]
 
 moduleclass = 'lang'
