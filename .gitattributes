@@ -1,0 +1,3 @@
+*.yaml linguist-detectable
+*.eb linguist-detectable
+*.cfg linguist-detectable
