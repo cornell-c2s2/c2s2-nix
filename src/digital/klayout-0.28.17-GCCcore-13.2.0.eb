@@ -1,0 +1,39 @@
+easyblock = 'EB_Klayout'
+
+name = 'klayout'
+version = '0.28.17'
+
+homepage = 'https://www.klayout.de/'
+description = "A GDS and OASIS viewer and editor"
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+
+source_urls = ['https://www.klayout.org/downloads/source/']
+sources = ['%(name)s-%(version)s.tar.gz']
+checksums = ['9f44bc51a4fceb401ad64b4207c4e8fa']
+
+builddependencies = [
+    ('ccache', '4.9'), # Optimizing compile time
+]
+
+dependencies = [
+    ('Qt6', '6.5.2'),
+    ('libgit2', '1.7.2'),
+]
+
+sanity_check_commands = [
+    "%(name)s -v",
+]
+
+sanity_check_paths = {
+    'files': ['bin/klayout'],
+    'dirs': [],
+}
+
+# Redundant specification for clarity
+qmake_path = "$EBROOTQT6/bin/qmake "
+
+# Use ccache for faster compile time
+use_ccache = True
+
+moduleclass = 'tools'
