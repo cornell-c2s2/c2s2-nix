@@ -1,0 +1,37 @@
+easyblock = 'ConfigureMake'
+
+name = 'xschem'
+version = '3.4.4'
+github_account = 'StefanSchippers'
+
+homepage = 'https://ngspice.sourceforge.net'
+description = """Xschem is a schematic capture program"""
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+toolchainopts = {'pic': True}
+
+source_urls = [GITHUB_SOURCE]
+sources = ['%(version)s.tar.gz']
+checksums = ['ce0e93a13ff5d77c0deb5234101573a85af622dad3fcb0e786de36943bbb3c79']
+
+builddependencies = [
+    ('binutils', '2.40'),
+    ('Bison', '3.8.2'),
+    ('flex', '2.6.4'),
+]
+
+dependencies = [
+    ('Tcl', '8.6.13'),
+    ('Tk', '8.6.13'),
+    ('X11', '20231019'),
+    ('cairo', '1.18.0'), # Optional
+]
+
+sanity_check_paths = {
+    'files': ['bin/xschem'],
+    'dirs': [],
+}
+
+sanity_check_commands = ['%(namelower)s --version']
+
+moduleclass = 'tools'
