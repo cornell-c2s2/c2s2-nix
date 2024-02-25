@@ -1,0 +1,2 @@
+easyconfigs:
+  - ./src/analog/ngspice-42-GCCcore-13.2.0.eb
