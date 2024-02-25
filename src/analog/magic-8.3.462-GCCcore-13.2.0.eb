@@ -1,0 +1,45 @@
+easyblock = 'ConfigureMake'
+
+name = 'magic'
+version = '8.3.462'
+
+homepage = 'https://ngspice.sourceforge.net'
+description = """Magic is a popular open-source VLSI layout tool"""
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+toolchainopts = {'pic': True}
+
+source_urls = ['http://opencircuitdesign.com/magic/archive/']
+sources = [SOURCE_TGZ]
+checksums = ['6fca5c0ea335b003061cbf42b6d84f64d0d2ba2af08e3c79edaef28179aaf8d1']
+
+builddependencies = [
+    ('M4', '1.4.19'),
+    ('Python', '3.11.5'),
+    ('X11', '20231019'),
+    ('binutils', '2.40'),
+]
+
+dependencies = [
+    ('cairo', '1.18.0'),
+    ('Tcl', '8.6.13'),
+    ('Tk', '8.6.13'),
+]
+
+configure_cmd = "./configure "
+
+# Manually specify Tcl and Tk locations, just for clarity
+configure_cmd += "--with-tcl=$EBROOTTCL/lib "
+configure_cmd += "--with-tk=$EBROOTTK/lib "
+
+# Use Cairo for graphics
+configure_cmd += "--with-cairo "
+
+sanity_check_paths = {
+    'files': ['bin/magic'],
+    'dirs': [],
+}
+
+sanity_check_commands = ['%(namelower)s --version']
+
+moduleclass = 'tools'

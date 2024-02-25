@@ -19,3 +19,4 @@ easyconfigs:
 # Analog
 
   - ./src/analog/ngspice-42-GCCcore-13.2.0.eb
+  - ./src/analog/magic-8.3.462-GCCcore-13.2.0.eb
