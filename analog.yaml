@@ -3,3 +3,4 @@ easyconfigs:
   - ./src/analog/magic-8.3.462-GCCcore-13.2.0.eb
   - ./src/analog/netgen-1.5.271-GCCcore-13.2.0.eb
   - ./src/analog/xschem-3.4.4-GCCcore-13.2.0eb
+  - ./src/analog/gaw-20220315-GCCcore-13.2.0eb

@@ -3,3 +3,4 @@ easyconfigs:
   - ./src/digital/verilator-4.036-GCCcore-13.2.0.eb
   - ./src/digital/iverilog-12.0-GCCcore-13.2.0.eb
   - ./src/digital/klayout-0.28.17-GCCcore-13.2.0.eb
+  - ./src/digital/yosys-0.38-GCCcore-13.2.0.eb

@@ -1,0 +1,25 @@
+easyblock = 'ConfigureMake'
+
+name = 'gaw3'
+version = '20220315'
+
+homepage = 'https://gaw.tuxfamily.org/'
+description = """Gaw is an open-source analog waveform viewer"""
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+toolchainopts = {'pic': True}
+
+source_urls = ['http://download.tuxfamily.org/gaw/download']
+sources = [SOURCE_TAR_GZ]
+checksums = ['6fe58acda553cb0206b5dac5f3d352c77531c4c539f59397ab41134252c44b48']
+
+dependencies = [
+    ('GTK3', '3.24.39'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/gaw'],
+    'dirs': [],
+}
+
+moduleclass = 'tools'
