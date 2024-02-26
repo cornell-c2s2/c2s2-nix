@@ -1,0 +1,37 @@
+easyblock = 'ConfigureMake'
+
+name = 'GTS'
+version = '0.7.6'
+
+homepage = 'http://gts.sourceforge.net/'
+description = """GTS stands for the GNU Triangulated Surface Library.
+It is an Open Source Free Software Library intended to provide a set of useful
+functions to deal with 3D surfaces meshed with interconnected triangles."""
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+
+# Aidan's Note: I did not enjoy figuring this out :(
+patches = ['GTS-0.7.6_fix-netpbm-dep.patch']
+
+checksums = [
+    {'gts-0.7.6.tar.gz': '059c3e13e3e3b796d775ec9f96abdce8f2b3b5144df8514eda0cc12e13e8b81e'},
+    {'GTS-0.7.6_fix-netpbm-dep.patch': '1c9de53a9e477a77b0bf5d63c3f10703a286326461cbac7c694de2cbf76f3e3d'},
+]
+
+builddependencies = [
+    ('pkgconf', '2.0.3'),
+    ('binutils', '2.40'),
+]
+dependencies = [
+    ('GLib', '2.78.1'),
+]
+
+sanity_check_paths = {
+    'files': ['lib/libgts.%s' % SHLIB_EXT, 'bin/gts2oogl', 'bin/gtscheck'],
+    'dirs': [],
+}
+
+moduleclass = 'vis'

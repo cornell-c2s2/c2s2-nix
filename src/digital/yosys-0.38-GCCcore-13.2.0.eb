@@ -1,0 +1,48 @@
+easyblock = 'ConfigureMake'
+
+name = 'yosys'
+version = '0.38'
+github_account = 'YosysHQ'
+
+homepage = 'https://yosyshq.net/yosys/'
+description = """Yosys is a framework for Verilog RTL synthesis"""
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+toolchainopts = {'pic': True}
+
+source_urls = [GITHUB_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['5f3d7bb12c5371db00586700a658a9196008a9457839f046403a660fe0c7a1df']
+
+builddependencies = [
+    ('binutils', '2.40'),
+    ('Bison', '3.8.2'),
+    ('flex', '2.6.4'),
+    ('gawk', '5.3.0'),
+    ('libffi', '3.4.4'),
+    ('git', '2.42.0'),
+    ('pkgconf', '2.0.3'),
+    ('Python', '3.11.5'),
+    ('zlib', '1.2.13'),
+]
+
+dependencies = [
+    ('libreadline', '8.2'),
+    ('Graphviz', '8.1.0'),
+]
+
+# Use custom configuration script
+configure_cmd = 'make config-gcc'
+configure_without_installdir = True
+
+# Specify install path
+installopts = 'PREFIX=%(installdir)s'
+
+sanity_check_paths = {
+    'files': ['bin/yosys'],
+    'dirs': [],
+}
+
+sanity_check_commands = ['%(namelower)s --version']
+
+moduleclass = 'tools'
