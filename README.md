@@ -70,8 +70,10 @@ eb --easystack c2s2-dev.yaml --robot
 From there, install the software you want based on the corresponding `easystack` file. For instance, if I wanted to build the software in `general`, I would run:
 
 ```bash
-eb --easystack general.yaml --robot=./src/dependencies:./src/patches --include-easyblocks=./easyblocks/klayout.py
+eb --easystack general.yaml --robot=./src/dependencies:./src/patches --include-easyblocks=./easyblocks/klayout.py,./easyblocks/riscvgnutoolchain.py
 ```
 
  - `--robot` indicates that EasyBuild should automatically install dependencies as well (EasyBuild doesn't install dependencies by default), as well as indicates paths that EasyBuild uses to find dependency `easyconfig` files. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet
- - `include-easyblocks=./easyblocks/klayout.py` indicates that we have some custom EasyBlock implemented in `klayout.py`
+ - `include-easyblocks=./easyblocks/klayout.py` indicates that we have some custom EasyBlock implemented in `klayout.py` (similar for `riscv-gnu-toolchain.py`)
+
+Note that building these files involves a large amount of file space, despite each build being cleaned up after its (successful) completion. The most utilization is for the RISCV GNU Toolchain, about 8GB; if your `easybuild` directory doesn't have the space for this, another build directory can be specified with `--buildpath`
