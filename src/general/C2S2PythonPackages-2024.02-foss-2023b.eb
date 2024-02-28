@@ -1,7 +1,7 @@
 easyblock = 'PythonBundle'
 
 name = 'C2S2PythonPackages'
-version = '2023.10'
+version = '2024.02'
 
 homepage = 'https://python.org/'
 description = "C2S2's bundle of Python packages from PyPI"

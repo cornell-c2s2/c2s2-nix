@@ -7,7 +7,7 @@ github_account = 'dalance'
 homepage = 'https://github.com/dalance/svlint'
 description = 'A SystemVerilog language server'
 
-toolchain = {'name': 'GCC', 'version': '13.2.0'}
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
 source_urls = [GITHUB_SOURCE]
 sources = ['v%(version)s.tar.gz']
 
