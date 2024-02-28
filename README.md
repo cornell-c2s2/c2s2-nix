@@ -4,7 +4,7 @@ C2S2's custom toolchain for chip development, built and managed using [EasyBuild
 
 ## Installation
 
-The only requirement is that EasyBuild is installed (4.9.0+). There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the additional configurations needed to use `EnvironmentModulesC` as the modules tool:
+The only requirement is that EasyBuild is installed (4.9.0+). There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the [additional configurations](https://docs.easybuild.io/configuration/#modules_tool) needed to use `EnvironmentModulesC` as the modules tool:
 
 ```bash
 # Define installation prefix, and install EasyBuild into it
@@ -27,6 +27,13 @@ Once EasyBuild is built as a module, we can inform the module tool of its locati
 
 ```bash
 module use $EB_DIR/modules/all
+module load EasyBuild
+```
+
+This will need to be done every time you log into a new shell; as an alternative, you may wish to add the following to a `.bashrc` (replacing `$EB_DIR` with the directory you selected above):
+
+```bash
+export MODULEPATH="$EB_DIR:$MODULEPATH"
 module load EasyBuild
 ```
 
@@ -77,3 +84,13 @@ eb --easystack general.yaml --robot=./src/dependencies:./src/patches --include-e
  - `include-easyblocks=./easyblocks/klayout.py` indicates that we have some custom EasyBlock implemented in `klayout.py` (similar for `riscv-gnu-toolchain.py`)
 
 Note that building these files involves a large amount of file space, despite each build being cleaned up after its (successful) completion. The most utilization is for the RISCV GNU Toolchain, about 8GB; if your `easybuild` directory doesn't have the space for this, another build directory can be specified with `--buildpath`
+
+# Using Packages
+
+Packages are installed in `$EB_DIR/software`, and are sourced using environment modules located in `$EB_DIR/modules`. Provided that you have used either the `module use` command or edited your `MODULEPATH` environment variable from above, they can be loaded using the appropriate module. For instance, to use a new version of Git, you would run
+
+```bash
+module load git
+```
+
+This will modify the necessary environment variables (`PATH`, etc.) to use Git from the shell, as well as sourcing any ohter modules for packages identified as runtime dependencies.
