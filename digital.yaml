@@ -6,3 +6,4 @@ easyconfigs:
   - ./src/digital/yosys-0.38-GCCcore-13.2.0.eb
   - ./src/digital/riscv-gnu-toolchain-2024.02.02-GCCcore-13.2.0.eb
   - ./src/digital/svlint-0.9.2-GCCcore-13.2.0.eb
+  - ./src/digital/svls-0.2.11-GCCcore-13.2.0.eb
