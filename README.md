@@ -4,7 +4,7 @@ C2S2's custom toolchain for chip development, built and managed using [EasyBuild
 
 ## Installation
 
-The only requirement is that EasyBuild is installed (4.9.0+). There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the [additional configurations](https://docs.easybuild.io/configuration/#modules_tool) needed to use `EnvironmentModulesC` as the modules tool:
+The only requirement is that EasyBuild is installed (4.9.0+) (as well as that the system has an environment module tool, the one preferred by EasyBuild being [Lmod](https://lmod.readthedocs.io/en/latest/)). There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the [additional configurations](https://docs.easybuild.io/configuration/#modules_tool) needed to use `EnvironmentModulesC` as the modules tool:
 
 ```bash
 # Define installation prefix, and install EasyBuild into it
