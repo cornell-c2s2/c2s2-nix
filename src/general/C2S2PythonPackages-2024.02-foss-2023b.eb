@@ -417,7 +417,14 @@ exts_list = [
         # (also a lot quicker to test)
         'ignore_test_result': True,
     }),   
-    # 79 extensions :) 
+    
+    #---------------------------------------------------------------------
+    # psutil
+    #---------------------------------------------------------------------
+
+    ('psutil', '5.9.8', {
+        'checksums': ['6be126e3225486dff286a8fb9a06246a5253f4c7c53b475ea5f5ac934e64194c'],
+    }),
 ]
 
 moduleclass = 'lang'
