@@ -2,6 +2,10 @@
 
 C2S2's custom toolchain for chip development, built and managed using [EasyBuild](https://easybuild.io/)
 
+<p align="center">
+<img src="assets/toolchain.png" alt="C2S2's Logo in a blue gear" width="200"/>
+</p>
+
 ## Installation
 
 The only requirement is that EasyBuild is installed (4.9.0+) (as well as that the system has an environment module tool, the one preferred by EasyBuild being [Lmod](https://lmod.readthedocs.io/en/latest/)). There are a [variety of methods](https://tutorial.easybuild.io/2023-eb-eessi-uk-workshop/easybuild-installation/). On C2S2's server, we built Easybuild as a separate module, noting the [additional configurations](https://docs.easybuild.io/configuration/#modules_tool) needed to use `EnvironmentModulesC` as the modules tool:
@@ -21,7 +25,7 @@ export EB_PYTHON=python3.8
 eb --install-latest-eb-release --prefix $EB_DIR --modules-tool=EnvironmentModulesC --module-syntax=Tcl
 ```
 
-*INTERNAL: EasyBuild was installed using Anaconda's Python 3.8, sourced using `module load anaconda3`. If you are using a different version of Python, change the prompts accordingly*
+_INTERNAL: EasyBuild was installed using Anaconda's Python 3.8, sourced using `module load anaconda3`. If you are using a different version of Python, change the prompts accordingly_
 
 Once EasyBuild is built as a module, we can inform the module tool of its location, then source the module
 
@@ -40,7 +44,7 @@ module load EasyBuild
 ## Configuring
 
 Configuring your EasyBuild system is also important to tailor it to your system. However, it can be overwhelming; EasyBuild is made to have very little hard-coded, and as such has around 275 configurations.
- 
+
 Configuration is most easily done through configuration files. However, EasyBuild only recognizes [specific locations](https://docs.easybuild.io/configuration/#configuration_file); these can be shown with
 
 ```bash
@@ -80,8 +84,8 @@ From there, install the software you want based on the corresponding `easystack`
 eb --easystack general.yaml --robot=./dependencies:./patches --include-easyblocks=./easyblocks/klayout.py,./easyblocks/riscvgnutoolchain.py
 ```
 
- - `--robot` indicates that EasyBuild should automatically install dependencies as well (EasyBuild doesn't install dependencies by default), as well as indicates paths that EasyBuild uses to find dependency `easyconfig` files and any patches for packages. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet
- - `include-easyblocks=./easyblocks/klayout.py` indicates that we have some custom EasyBlock implemented in `klayout.py` (similar for `riscv-gnu-toolchain.py`)
+- `--robot` indicates that EasyBuild should automatically install dependencies as well (EasyBuild doesn't install dependencies by default), as well as indicates paths that EasyBuild uses to find dependency `easyconfig` files and any patches for packages. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet
+- `include-easyblocks=./easyblocks/klayout.py` indicates that we have some custom EasyBlock implemented in `klayout.py` (similar for `riscv-gnu-toolchain.py`)
 
 Note that building these files involves a large amount of file space, despite each build being cleaned up after its (successful) completion. The most utilization is for the RISCV GNU Toolchain, about 8GB; if your `easybuild` directory doesn't have the space for this, another build directory can be specified with `--buildpath`
 
