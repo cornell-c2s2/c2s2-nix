@@ -3,7 +3,7 @@ easyblock = 'ConfigureMake'
 name = 'gtkwave'
 version = '3.3.117'
 
-homepage = 'https://www.veripool.org/verilator/'
+homepage = 'http://gtkwave.sourceforge.net/'
 description = "A fully featured GTK+ based wave viewer"
 
 toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
