@@ -1,0 +1,46 @@
+easyblock = 'EB_Dtc'
+
+name = 'dtc'
+version = '1.7.0'
+github_account = 'dgibson'
+
+homepage = 'https://github.com/dgibson/dtc'
+description = "A toolchain for working with device tree source and binary files"
+
+toolchain = {'name': 'GCCcore', 'version': '13.2.0'}
+
+source_urls = [GITHUB_SOURCE]
+
+# Clone from GitHub
+sources = [{
+    'filename': 'v%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/dgibson',
+        'repo_name': '%(name)s',
+        'tag': 'v1.7.0',
+        'keep_git_dir': True,
+    },
+}]
+
+# No reproducible checksum
+checksums = [None]
+
+dependencies = [
+    # For Python bindings
+    ('SWIG', '4.1.1'),
+    ('Python', '3.11.5')
+]
+
+sanity_check_commands = [
+    "dtc --version",
+]
+
+sanity_check_paths = {
+    'files': ['bin/dtc'],
+    'dirs': [],
+}
+
+# Build without Python support
+installopts = 'NO_PYTHON=1'
+
+moduleclass = 'compiler'
