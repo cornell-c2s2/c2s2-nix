@@ -1,10 +1,15 @@
 
 from easybuild.easyblocks.generic.configuremake import ConfigureMake
 from easybuild.framework.easyconfig import CUSTOM
+from easybuild.tools.py2vs3 import string_type
+from easybuild.tools.run import run_cmd
 
 #=========================================================================
 # RISCV GNU Toolchain
 #=========================================================================
+
+DEFAULT_BUILD_CMD = 'make'
+DEFAULT_BUILD_TARGET = ''
 
 class EB_RISCVGNUToolchain(ConfigureMake):
     """
@@ -32,6 +37,32 @@ class EB_RISCVGNUToolchain(ConfigureMake):
     def install_step(self):
         """Do what `build_step` used to do"""
 
-        if( self.cfg['with_spike'] ):
-            self.cfg['build_cmd_targets'] = 'all build-sim'
-        return super().build_step( self )
+        paracmd = ''
+        if self.cfg['parallel']:
+            paracmd = "-j %s" % self.cfg['parallel']
+
+        targets = self.cfg.get('build_cmd_targets') or DEFAULT_BUILD_TARGET
+        # ensure strings are converted to list
+        targets = [targets] if isinstance(targets, string_type) else targets
+        if self.cfg['with_spike']:
+            targets.append( 'build-sim' )
+
+        for target in targets:
+            cmd = ' '.join([
+                self.cfg['prebuildopts'],
+                self.cfg.get('build_cmd') or DEFAULT_BUILD_CMD,
+                target,
+                paracmd,
+                self.cfg['buildopts'],
+            ])
+            if target == 'build-sim':
+                # Make sure to not set flags specific to native GCC
+                cmd = "unset CC CXX CFLAGS CXXFLAGS LIBS && " + cmd
+                # Make sure pk knows about the RISCV compiler
+                cmd = f"export PATH={self.installdir}/bin:$PATH && " + cmd
+
+            self.log.info("Building target '%s'", target)
+
+            (out, _) = run_cmd(cmd, log_all=True, simple=False)
+
+        return out
