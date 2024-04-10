@@ -1,0 +1,12 @@
+--- Makefile.in	2024-04-09 21:29:08.400576350 -0400
++++ Makefile.in	2024-04-09 21:29:56.289146456 -0400
+@@ -874,7 +874,8 @@
+ 	rm -rf $@ $(notdir $@)
+ 	mkdir $(notdir $@)
+ 	cd $(notdir $@) && $</configure \
+-		--prefix=$(INSTALL_DIR)
++		--prefix=$(INSTALL_DIR) \
++		--with-boost=$(EBROOTBOOST)
+ 	$(MAKE) -C $(notdir $@)
+ 	$(MAKE) -C $(notdir $@) install
+ 	mkdir -p $(dir $@)

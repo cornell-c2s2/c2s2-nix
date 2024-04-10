@@ -21,9 +21,11 @@ sources = [{
         'keep_git_dir': True,
     },
 }]
+patches = ['RISCV-spike-boost-detect.patch']
 
 # No reproducible checksum
 checksums = [None]
+
 
 builddependencies = [
     ('Autoconf', '2.71'),
@@ -61,9 +63,6 @@ sanity_check_paths = {
 }
 
 configopts = ' --enable-multilib --with-sim=spike'
-
-# Having trouble detecting Boost - manually specify
-prebuildopts = 'export BOOST_ROOT=$EBROOTBOOST && '
 with_spike = True
 
 modextravars = {
