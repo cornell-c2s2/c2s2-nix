@@ -81,7 +81,7 @@ eb --easystack c2s2-dev.yaml --robot
 From there, install the software you want based on the corresponding `easystack` file. For instance, if I wanted to build the software in `general`, I would run:
 
 ```bash
-eb --easystack general.yaml --robot=./dependencies:./patches --include-easyblocks=./easyblocks/klayout.py,./easyblocks/riscvgnutoolchain.py,./easyblocks/dtc.py
+eb --easystack general.yaml --robot=./dependencies:./patches --include-easyblocks=./easyblocks/klayout.py,./easyblocks/riscvgnutoolchain.py,./easyblocks/dtc.py,./easyblocks/sky130.py
 ```
 
 - `--robot` indicates that EasyBuild should automatically install dependencies as well (EasyBuild doesn't install dependencies by default), as well as indicates paths that EasyBuild uses to find dependency `easyconfig` files and any patches for packages. This includes custom dependencies that C2S2 has made, as well as those not included in a release of [`easybuild-easyconfigs`](https://github.com/easybuilders/easybuild-easyconfigs) yet

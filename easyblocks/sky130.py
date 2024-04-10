@@ -43,12 +43,10 @@ class EB_Sky130(EasyBlock):
         pdk = self.cfg['pdk']
         commit = self.cfg['commit']
 
-        bindir = os.path.join(self.installdir, 'bin')
-        install_cmd = f"export PDK_ROOT={bindir} && "
+        install_cmd = f"export PDK_ROOT={self.installdir} && "
 
         install_cmd += f"volare enable --pdk {pdk} {commit}"
         try:
-            os.makedirs(bindir)
             (out, _) = run_cmd(install_cmd, log_all=True, simple=False)
         except OSError as err:
             raise EasyBuildError("Installing Skywater130 in %s failed: %s", bindir, err)

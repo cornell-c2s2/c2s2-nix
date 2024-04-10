@@ -14,6 +14,11 @@ dependencies = [
     ('C2S2PythonPackages', '2024.02' ),
 ]
 
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['volare'],
+}
+
 modextravars = {
     "PDK_ROOT" : "%(installdir)s",
     "PDK"      : "sky130A",

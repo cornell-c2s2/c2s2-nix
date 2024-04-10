@@ -16,6 +16,7 @@ easyconfigs:
   - ./src/general/C2S2PythonPackages-2024.02-foss-2023b.eb 
   - ./src/general/tmux-3.3a-GCCcore-13.2.0.eb
   - ./src/general/xclip-0.13-GCCcore-13.2.0.eb
+  - ./src/general/sky130-2024.04-foss-2023b.eb
 
 # Digital
 
