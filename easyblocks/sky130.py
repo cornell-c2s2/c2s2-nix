@@ -29,11 +29,11 @@ class EB_Sky130(EasyBlock):
         extra_vars = EasyBlock.extra_options(extra_vars)
         return extra_vars
 
-    def configure_step():
+    def configure_step(self):
         "Nothing to do"
         pass
 
-    def build_step():
+    def build_step(self):
         "Nothing to do"
         pass
 
