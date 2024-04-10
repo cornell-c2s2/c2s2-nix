@@ -26,7 +26,7 @@ class EB_Sky130(EasyBlock):
             'commit': ["78b7bc32ddb4b6f14f76883c2e2dc5b5de9d1cbc", 
                        "Open PDKs commit to use", CUSTOM],
         }
-        extra_vars = Tarball.extra_options(extra_vars)
+        extra_vars = EasyBlock.extra_options(extra_vars)
         return extra_vars
 
     def install_step(self):
