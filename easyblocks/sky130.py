@@ -29,6 +29,14 @@ class EB_Sky130(EasyBlock):
         extra_vars = EasyBlock.extra_options(extra_vars)
         return extra_vars
 
+    def configure_step():
+        "Nothing to do"
+        pass
+
+    def build_step():
+        "Nothing to do"
+        pass
+
     def install_step(self):
 
         # Use ccache if necessary
