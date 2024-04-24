@@ -25,7 +25,44 @@ export EB_PYTHON=python3.8
 eb --install-latest-eb-release --prefix $EB_DIR --modules-tool=EnvironmentModulesC --module-syntax=Tcl
 ```
 
-_INTERNAL: EasyBuild was installed using Anaconda's Python 3.8, sourced using `module load anaconda3`. If you are using a different version of Python, change the prompts accordingly_
+**Note**: EasyBuild was installed using Anaconda's Python 3.8, sourced using `module load anaconda3`. If you are using a different version of Python, change the prompts accordingly. Here, we assume the tree:
+
+```text
+$EB_TMPDIR
+ |-- bin
+ |-- contrib
+ |-- easybuild
+ |-- etc
+ `-- lib
+      `-- python3.8
+           `-- site-packages
+                |-- easybuild
+                ...
+```
+
+However, it's common for other trees to look different; below is another example installation tree, and the appropriate commands to run instead
+
+```text
+$EB_TMPDIR
+ `-- local
+      |-- bin
+      |-- contrib
+      |-- easybuild
+      |-- etc
+      `-- lib
+           `-- python3.11
+                `-- dist-packages
+                     |-- easybuild
+                     ...
+```
+
+In this case, you would replace the commands after the temporary installation with
+
+```bash
+export PATH=$EB_TMPDIR/local/bin:$PATH
+export PYTHONPATH=$EB_TMPDIR/local/lib/python3.8/dist-packages/:$PYTHONPATH
+export EB_PYTHON=python3.11
+```
 
 Once EasyBuild is built as a module, we can inform the module tool of its location, then source the module
 
