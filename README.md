@@ -60,7 +60,7 @@ In this case, you would replace the commands after the temporary installation wi
 
 ```bash
 export PATH=$EB_TMPDIR/local/bin:$PATH
-export PYTHONPATH=$EB_TMPDIR/local/lib/python3.8/dist-packages/:$PYTHONPATH
+export PYTHONPATH=$EB_TMPDIR/local/lib/python3.11/dist-packages/:$PYTHONPATH
 export EB_PYTHON=python3.11
 ```
 
