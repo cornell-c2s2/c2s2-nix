@@ -64,6 +64,8 @@ export PYTHONPATH=$EB_TMPDIR/local/lib/python3.8/dist-packages/:$PYTHONPATH
 export EB_PYTHON=python3.11
 ```
 
+## Sourcing
+
 Once EasyBuild is built as a module, we can inform the module tool of its location, then source the module
 
 ```bash
