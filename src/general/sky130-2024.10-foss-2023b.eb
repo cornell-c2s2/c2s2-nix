@@ -1,0 +1,27 @@
+easyblock = 'EB_Sky130'
+
+name = 'sky130'
+version = '2024.10'
+
+homepage = 'https://github.com/google/skywater-pdk'
+description = "The Skywater130 PDK, installed using Volare"
+
+# Build with foss for BLAS / LAPACK support for numpy
+toolchain = { 'name': 'foss', 'version': '2023b' }
+toolchainopts = { 'pic': True }
+
+dependencies = [
+    ('C2S2PythonPackages', '2024.10' ),
+]
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['volare'],
+}
+
+modextravars = {
+    "PDK_ROOT" : "%(installdir)s",
+    "PDK"      : "sky130A",
+}
+
+moduleclass = 'lang'
